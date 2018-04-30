@@ -1,26 +1,27 @@
-## Base Container for Express serving static content with NodeJS
-
-This is image will be published to andyianriley/static-express-server.
+## Sample project for Star Wars themed Vehicle Data
+This is image will be published to andyianriley/star-wars-vehicle-lookup.
 
 To use this image locally build the image.
 ```
 docker-compose build
+docker-compose up
 ```
-Then you will be able to reference it in other dockerfiles, see example for react application.
-You can set environment variables for BASE_URI and PORT, they default to '/' and 8080.
+Then you will be able to reference it in other dockerfiles.
 
-```
-# Stage 1 - the build process
-FROM node:9.11 as build-deps
-COPY . /app
-WORKDIR /app/
-RUN cd /app && \
-    yarn install && \
-    yarn build
+You can set environment variables PORT, default 9001 base uri is http://localhost:9001/vehicles.
 
-# Stage 2 - the production environment
-FROM andyianriley/static-express-server:latest
-COPY --from=build-deps /app/build /server/static
-EXPOSE 8080
-CMD ["yarn", "start"]
+Sample query
+
+http://localhost:9001/vehicles/W00K133
+
+response 
+
+```json
+{  
+   "vrm":"W00K133",
+   "name":"Corellian YT-1300f light freighter",
+   "maxSpeed":"1,050 km/h",
+   "hyper-drive-rating":"Class 0.5",
+   "length":"34.75"
+}
 ```
